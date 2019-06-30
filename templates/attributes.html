@@ -6,10 +6,10 @@
     <div class="mdc-layout-grid">
       <div class="mdc-layout-grid__inner">
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8">
-          {% if results %}
+          {% if search %}
           <h1 class="article-header__title">Suche</h1>
           <p class="article-header__description">
-            {{ results|length }} Suchergebnisse für {{ request.args.q }}
+            {{ attributes|length }} Suchergebnisse für {{ request.args.q }}
             <br>
             <a href="/attribute">Zeige alle Attribute</a>
           </p>
