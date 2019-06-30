@@ -1,0 +1,57 @@
+{% extends "_base.html" %}
+
+{% block hero %}
+<div class="article-header">
+  <div class="article-header__hgroup">
+    <div class="mdc-layout-grid">
+      <div class="mdc-layout-grid__inner">
+        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8">
+          <h1 class="article-header__title">{{ name }}</h1>
+          <p class="article-header__description">{{ attribute }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block main %}
+<h2>Beschreibung</h2>
+<p>{{ description|replace('\n','<br>')|safe }}</p>
+<h2>GraphQL</h2>
+<a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute }}%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Beispiel</a>
+<pre><code>{
+  allRegions {
+    page
+    total
+    itemsPerPage
+    regions {
+      id
+      name
+      {{ attribute }} {
+        year
+        value
+      }
+    }
+  }
+}</code></pre>
+
+{% endblock %}
+
+{% block aside %}
+{% if args.items() %}
+<h2>Argumente</h2>
+<ul>
+  {% for arg, info in args.items() %}
+  <li class="article-list__item">
+    <a class="article-list__link" href="/{{ attribute }}/{{ arg }}">
+      <h3 class="article-list__title">{{ arg }}</h3>
+      <p class="article-list__description">{{ info.name }}</p>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+<hr>
+<a href="/attribute">Zurück zu allen Attributen</a>
+{% endblock %}

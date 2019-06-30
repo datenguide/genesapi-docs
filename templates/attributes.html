@@ -1,0 +1,55 @@
+{% extends "_base.html" %}
+
+{% block hero %}
+<div class="article-header">
+  <div class="article-header__hgroup">
+    <div class="mdc-layout-grid">
+      <div class="mdc-layout-grid__inner">
+        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8">
+          {% if results %}
+          <h1 class="article-header__title">Suche</h1>
+          <p class="article-header__description">
+            {{ results|length }} Suchergebnisse für {{ request.args.q }}
+            <br>
+            <a href="/attribute">Zeige alle Attribute</a>
+          </p>
+          {% else %}
+          <h1 class="article-header__title">Alle Attribute</h1>
+          <p class="article-header__description">
+            Liste aller verfügbaren Attribute in der GENESIS-Datenbank
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block main %}
+{% for key, attribute in attributes %}
+<div class="mdc-card attribute">
+  <div class="mdc-card__primary-action">
+    <a href="/{{ key }}">
+      <div style="padding: 0px 1rem 1rem;">
+        <h2 class=" mdc-typography--display1">{{ attribute.name }}</h1>
+        <h3 class="mdc-theme--text-secondary-on-background mdc-typography--subheading1" style="margin-top: -1rem;">
+          {{ key }}
+        </h3>
+        <div class="mdc-theme--text-primary-on-background mdc-typography--body1">
+          <p>{{ attribute.description|truncate(250) }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block aside %}
+<h2>Suche</h2>
+<form action="/attribute" method="get">
+  <input type="text" name="q" class="react-autosuggest__input" placeholder="Suche nach einem Thema..." value="{{ request.args.q }}">
+</form>
+
+{% endblock %}

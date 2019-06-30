@@ -1,0 +1,22 @@
+* {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+pre {
+  padding: 2rem;
+  background-color: #ececec;
+  font-size: 15px;
+}
+
+.attribute a {
+  text-decoration: none;
+}
+
+.attribute a h2 {
+  color: black;
+}
+
+.argument__value {
+  margin-top: 40px;
+  border-top: 1px solid #ededed;
+}
