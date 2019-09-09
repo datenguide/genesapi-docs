@@ -1,4 +1,4 @@
-{% extends "_base.html" %}
+{% extends '_base.html' %}
 
 {% block hero %}
 <div class="article-header">
@@ -16,11 +16,26 @@
 {% endblock %}
 
 {% block main %}
+<div class="attribute">
 <h2>Beschreibung</h2>
 <p>{{ description|replace('\n','<br>')|safe }}</p>
-<h2>GraphQL</h2>
-<a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute }}%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Beispiel</a>
-<pre><code>{
+
+<h2>GraphQL-Beispiele</h2>
+
+<p>Hier ein paar Beispiel-Abfragen zu <em>{{ name }}</em>. Nicht alle Daten
+sind auf allen Gebiets-Ebenen und/oder für alle Jahre verfügbar.</p>
+
+<p><em>Klicke auf die einzelnen Beispiele, um die GraphQL-Abfrage direkt im Browser zu öffnen</em></p>
+
+<div class="mdc-card attribute__example">
+  <div class="mdc-card__primary-action">
+    <a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute }}%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">
+      <div class="card__header">
+        <h3 class="mdc-typography--display2">Alle Daten</h3>
+        <strong>Regionen</strong>: alle<br>
+        <strong>Jahr</strong>: alle<br>
+      </div>
+      <pre><code>{
   allRegions {
     page
     total
@@ -35,7 +50,86 @@
     }
   }
 }</code></pre>
+    </a>
+  </div>
+</div>
 
+<div class="mdc-card attribute__example">
+  <div class="mdc-card__primary-action">
+    <a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%28nuts%3A%203%29%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute }}%28year%3A%202016%29%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">
+      <div class="card__header">
+        <h3 class="mdc-typography--display2">Daten auf Kreisebene für 2016</h3>
+        <strong>Regionen</strong>: Kreise und kreisfreie Städte (<code>nuts: 3</code>)<br>
+        <strong>Jahr</strong>: 2016 (<code>year: 2016</code>)<br>
+      </div>
+      <pre><code>{
+  allRegions {
+    page
+    total
+    itemsPerPage
+    regions(nuts: 3) {
+      id
+      name
+      {{ attribute }}(year: 2016) {
+        year
+        value
+      }
+    }
+  }
+}</code></pre>
+    </a>
+  </div>
+</div>
+
+<div class="mdc-card attribute__example">
+  <div class="mdc-card__primary-action">
+    <a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%28lau%3A1%2C%20parent%3A%2205%22%29%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute }}%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">
+      <div class="card__header">
+        <h3 class="mdc-typography--display2">Daten für Gemeinden in NRW</h3>
+        <strong>Regionen</strong>: Gemeinden (<code>lau: 1</code>)<br>
+        <strong>Gebiets-Filter</strong>: NRW (<code>parent: "05"</code>)<br>
+      </div>
+      <pre><code>{
+  allRegions {
+    page
+    total
+    itemsPerPage
+    regions(lau: 1, parent: "05") {
+      id
+      name
+      {{ attribute }} {
+        year
+        value
+      }
+    }
+  }
+}</code></pre>
+    </a>
+  </div>
+</div>
+
+<div class="mdc-card attribute__example">
+  <div class="mdc-card__primary-action">
+    <a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20region%28id%3A%20%22DG%22%29%20%7B%0A%20%20%20%20id%0A%20%20%20%20name%0A%20%20%20%20{{ attribute }}%20%7B%0A%20%20%20%20%20%20year%0A%20%20%20%20%20%20value%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">
+      <div class="card__header">
+        <h3 class="mdc-typography--display2">Gesamtsumme für Deutschland</h3>
+        <strong>Region</strong>: Deutschland (<code>id: "DG"</code>)<br>
+      </div>
+      <pre><code>{
+  region(id: "DG") {
+    id
+    name
+    AENW01 {
+      year
+      value
+    }
+  }
+}</code></pre>
+    </a>
+  </div>
+</div>
+
+</div>
 {% endblock %}
 
 {% block aside %}
@@ -53,5 +147,5 @@
 </ul>
 {% endif %}
 <hr>
-<a href="/attribute">Zurück zu allen Attributen</a>
+<a href="/attribute">Zurück zu allen Merkmalen</a>
 {% endblock %}

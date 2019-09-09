@@ -17,12 +17,19 @@
 
 {% block main %}
 <h2>Mögliche Werte</h2>
+
+<p>Wie nach Jahren oder Regionen gefiltert werden kann, siehst du in den
+  <a href="/{{ attribute.id }}">Beispielen zu {{ attribute.name }}</a></p>
+
 {% for value in values %}
-<div class="argument__value">
-<h3>{{ value.name }}</h3>
-{{ value.value }}
-<a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute.id }}%28{{ argument.id }}%3A%20{{ value.value }}%29%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">Beispiel</a>
-<pre><code>{
+<div class="mdc-card argument__value" id="{{ value.value }}">
+  <div class="mdc-card__primary-action">
+    <a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute.id }}%28{{ argument.id }}%3A%20{{ value.value }}%29%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">
+      <div class="card__header">
+        <h3 class="mdc-typography--display2">{{ value.name }}</h3>
+        {{ value.value }}
+      </div>
+      <pre><code>{
   allRegions {
     page
     total
@@ -37,11 +44,17 @@
     }
   }
 }</code></pre>
+    </a>
+  </div>
 </div>
 {% endfor %}
 {% endblock %}
 
 {% block aside %}
 <hr>
-<a href="/{{ attribute.id }}">Zurück zu "{{ attribute.id }}"</a>
+<a href="/{{ attribute.id }}">Zurück zu "{{ attribute.id }}" ({{ attribute.name }})</a>
+<hr>
+{% for value in values %}
+<a href="#{{ value.value }}">{{ value.name }}</a><br>
+{% endfor %}
 {% endblock %}
