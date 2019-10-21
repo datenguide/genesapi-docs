@@ -32,12 +32,16 @@
   <div class="mdc-card__primary-action">
     <a href="/{{ key }}">
       <div style="padding: 0px 1rem 1rem;">
-        <h2 class=" mdc-typography--display1">{{ attribute.name }}</h1>
+        <h2 class=" mdc-typography--display1">{{ attribute.title_de }}</h1>
         <h3 class="mdc-theme--text-secondary-on-background mdc-typography--subheading1" style="margin-top: -1rem;">
           {{ key }}
         </h3>
         <div class="mdc-theme--text-primary-on-background mdc-typography--body1">
-          <p>{{ attribute.description|truncate(250) }}</p>
+          <p>{{ attribute.definition_de|truncate(250) }}</p>
+          <em>{% for level in attribute.region_levels %}
+            {{ level_labels[level] }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </em>
         </div>
       </div>
     </a>

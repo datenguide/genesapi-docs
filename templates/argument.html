@@ -6,8 +6,8 @@
     <div class="mdc-layout-grid">
       <div class="mdc-layout-grid__inner">
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8">
-          <h1 class="article-header__title">{{ attribute.name }} > {{ argument.name }}</h1>
-          <p class="article-header__description">{{ argument.id }} > {{ attribute.id }}</p>
+          <h1 class="article-header__title">{{ attribute.title_de }} > {{ title_de }}</h1>
+          <p class="article-header__description">{{ attribute.name }} > {{ name }}</p>
         </div>
       </div>
     </div>
@@ -19,15 +19,15 @@
 <h2>Mögliche Werte</h2>
 
 <p>Wie nach Jahren oder Regionen gefiltert werden kann, siehst du in den
-  <a href="/{{ attribute.id }}">Beispielen zu {{ attribute.name }}</a></p>
+  <a href="/{{ attribute.name }}">Beispielen zu {{ attribute.title_de }}</a></p>
 
 {% for value in values %}
-<div class="mdc-card argument__value" id="{{ value.value }}">
+<div class="mdc-card argument__value" id="{{ value.key }}">
   <div class="mdc-card__primary-action">
-    <a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute.id }}%28{{ argument.id }}%3A%20{{ value.value }}%29%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">
+    <a href="https://api-next.datengui.de/graphql?query=%7B%0A%20%20allRegions%20%7B%0A%20%20%20%20page%0A%20%20%20%20total%0A%20%20%20%20itemsPerPage%0A%20%20%20%20regions%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20{{ attribute.name }}%28{{ name }}%3A%20{{ value.name }}%29%20%7B%0A%20%20%20%20%20%20%20%20year%0A%20%20%20%20%20%20%20%20value%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A">
       <div class="card__header">
-        <h3 class="mdc-typography--display2">{{ value.name }}</h3>
-        {{ value.value }}
+        <h3 class="mdc-typography--display2">{{ value.title_de }}</h3>
+        {{ value.name }}
       </div>
       <pre><code>{
   allRegions {
@@ -37,7 +37,7 @@
     regions {
       id
       name
-      {{ attribute.id }} ({{ argument.id }}: {{ value.value }}) {
+      {{ attribute.name }} ({{ name }}: {{ value.name }}) {
         year
         value
       }
@@ -51,10 +51,18 @@
 {% endblock %}
 
 {% block aside %}
+{% if attribute.region_levels %}
+<h2>Regionale Ebenen</h2>
+<p>Diese Daten sind für
+  <em>{% for level in attribute.region_levels %}
+    {{ level_labels[level] }}{% if not loop.last %}, {% endif %}
+    {% endfor %}</em>
+  verfügbar.</p>
+{% endif %}
 <hr>
-<a href="/{{ attribute.id }}">Zurück zu "{{ attribute.id }}" ({{ attribute.name }})</a>
+<a href="/{{ attribute.name }}">Zurück zu "{{ attribute.title_de }}" ({{ attribute.name }})</a>
 <hr>
 {% for value in values %}
-<a href="#{{ value.value }}">{{ value.name }}</a><br>
+<a href="#{{ value.key }}">{{ value.title_de }}</a><br>
 {% endfor %}
 {% endblock %}

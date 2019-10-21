@@ -6,8 +6,8 @@
     <div class="mdc-layout-grid">
       <div class="mdc-layout-grid__inner">
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8">
-          <h1 class="article-header__title">{{ name }}</h1>
-          <p class="article-header__description">{{ attribute }}</p>
+          <h1 class="article-header__title">{{ title_de }}</h1>
+          <p class="article-header__description">{{ name }}</p>
         </div>
       </div>
     </div>
@@ -18,11 +18,11 @@
 {% block main %}
 <div class="attribute">
 <h2>Beschreibung</h2>
-<p>{{ description|replace('\n','<br>')|safe }}</p>
+<p>{{ definition_de|replace('\n','<br>')|safe }}</p>
 
 <h2>GraphQL-Beispiele</h2>
 
-<p>Hier ein paar Beispiel-Abfragen zu <em>{{ name }}</em>. Nicht alle Daten
+<p>Hier ein paar Beispiel-Abfragen zu <em>{{ title_de }}</em>. Nicht alle Daten
 sind auf allen Gebiets-Ebenen und/oder für alle Jahre verfügbar.</p>
 
 <p><em>Klicke auf die einzelnen Beispiele, um die GraphQL-Abfrage direkt im Browser zu öffnen</em></p>
@@ -133,14 +133,23 @@ sind auf allen Gebiets-Ebenen und/oder für alle Jahre verfügbar.</p>
 {% endblock %}
 
 {% block aside %}
-{% if args.items() %}
+{% if region_levels %}
+<h2>Regionale Ebenen</h2>
+<p>Diese Daten sind für
+  <em>{% for level in region_levels %}
+    {{ level_labels[level] }}{% if not loop.last %}, {% endif %}
+    {% endfor %}</em>
+  verfügbar.</p>
+{% endif %}
+
+{% if dimensions and dimensions.items() %}
 <h2>Argumente</h2>
 <ul>
-  {% for arg, info in args.items() %}
+  {% for arg, info in dimensions.items() %}
   <li class="article-list__item">
     <a class="article-list__link" href="/{{ attribute }}/{{ arg }}">
-      <h3 class="article-list__title">{{ arg }}</h3>
-      <p class="article-list__description">{{ info.name }}</p>
+      <h3 class="article-list__title">{{ info.title_de }}</h3>
+      <p class="article-list__description">{{ arg }}</p>
     </a>
   </li>
   {% endfor %}
