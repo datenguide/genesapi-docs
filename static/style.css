@@ -10,15 +10,23 @@ pre {
   color: black;
 }
 
-.attribute a {
+.article-header code {
+  font-size: 85%;
+  font-weight: normal;
+  line-height: 130%;
+  padding: 8px;
+  background-color: #ededed;
+}
+
+.measure a {
   text-decoration: none;
 }
 
-.attribute a h2 {
+.measure a h2 {
   color: black;
 }
 
-.attribute__example {
+.measure__example {
   margin-bottom: 40px;
 }
 
@@ -27,10 +35,32 @@ pre {
   color: black;
 }
 
-.argument__value {
+.dimension__value {
   margin-top: 40px;
 }
 
-.argument__value a {
+.dimension__value a {
+  text-decoration: none;
+}
+
+.article-list .article-list__link code {
+  font-size: 85%;
+  font-weight: normal;
+  line-height: 130%;
+  padding: 6px;
+  background-color: #ededed;
+}
+
+.article-list .article-list__link {
+  text-decoration: none;
+}
+
+.mdc-card.measure code {
+  font-size: 13px;
+  padding: 3px;
+  background-color: #ededed;
+}
+
+.header__link {
   text-decoration: none;
 }

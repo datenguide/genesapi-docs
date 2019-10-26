@@ -4,14 +4,13 @@ import requests
 res = requests.get('https://data.genesapi.org/regionalstatistik/schema.json')
 data = res.json()
 
-# for local developement
-# import json  # noqa
-# data = json.load(open('./schema.json'))
-
-# flatten attributes (FIXME update this whole app to the new schema layout)
-attributes = [attribute for statistic in data.values() for attribute in statistic['attributes'].values()]
+# flatten measures
+measures = sorted(((key, {**measure, **{'statistic': statistic}})
+                   for statistic in data.values()
+                   for key, measure in statistic['measures'].items()),
+                  key=lambda x: x[1]['title_de'])
 
 
 class SCHEMA:
-    attributes = {a['name']: a for a in attributes}
+    measures = measures
     statistics = data

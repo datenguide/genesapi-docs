@@ -9,9 +9,9 @@
           {% if search %}
           <h1 class="article-header__title">Suche</h1>
           <p class="article-header__description">
-            {{ attributes|length }} Suchergebnisse für {{ request.args.q }}
+            {{ measures|length }} Suchergebnisse für {{ request.args.q }}
             <br>
-            <a href="/attribute">Zeige alle Merkmale</a>
+            <a href="/measure">Zeige alle Merkmale</a>
           </p>
           {% else %}
           <h1 class="article-header__title">Alle Merkmale</h1>
@@ -27,18 +27,19 @@
 {% endblock %}
 
 {% block main %}
-{% for key, attribute in attributes %}
-<div class="mdc-card attribute">
+{% for key, measure in measures %}
+<div class="mdc-card measure">
   <div class="mdc-card__primary-action">
-    <a href="/{{ key }}">
+    <a href="/{{ measure.statistic.name }}/{{ key }}">
       <div style="padding: 0px 1rem 1rem;">
-        <h2 class=" mdc-typography--display1">{{ attribute.title_de }}</h1>
+        <h2 class=" mdc-typography--display1">{{ measure.title_de }}</h1>
         <h3 class="mdc-theme--text-secondary-on-background mdc-typography--subheading1" style="margin-top: -1rem;">
           {{ key }}
         </h3>
         <div class="mdc-theme--text-primary-on-background mdc-typography--body1">
-          <p>{{ attribute.definition_de|truncate(250) }}</p>
-          <em>{% for level in attribute.region_levels %}
+          <p><strong>Statistik:</strong> {{ measure.statistic.title_de }} <code>{{ measure.statistic.name }}</code></p>
+          <p>{{ measure.definition_de|truncate(250) }}</p>
+          <em>{% for level in measure.region_levels %}
             {{ level_labels[level] }}{% if not loop.last %}, {% endif %}
             {% endfor %}
           </em>
@@ -52,7 +53,7 @@
 
 {% block aside %}
 <h2>Suche</h2>
-<form action="/attribute" method="get">
+<form action="/measures" method="get">
   <input type="text" name="q" class="react-autosuggest__input" placeholder="Suche nach einem Thema..." value="{{ request.args.q }}">
 </form>
 
