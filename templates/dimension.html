@@ -35,6 +35,7 @@
       <div class="card__header">
         <h3 class="mdc-typography--display2">{{ value.title_de }}</h3>
         <code>{{ value.key }}</code>
+        <p>{{ value.definition_de|replace('\n','<br>')|safe }}</p>
       </div>
       <pre><code>{
   allRegions {
