@@ -1,8 +1,18 @@
+import json
+import os
 import requests
 
-# download schema on app startup
-res = requests.get('https://data.genesapi.org/regionalstatistik/schema.json')
-data = res.json()
+
+SCHEMA_FP = os.getenv('SCHEMA')
+
+if SCHEMA_FP:
+    with open(SCHEMA_FP) as f:
+        data = json.load(f)
+
+else:
+    # download schema on app startup
+    res = requests.get('https://data.genesapi.org/regionalstatistik/schema.json')
+    data = res.json()
 
 # flatten measures
 measures = sorted(((key, {**measure, **{'statistic': statistic}})
